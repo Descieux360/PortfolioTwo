@@ -24,7 +24,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <div className="app max-w-[1200px] mx-auto">
+    <div className="app max-w-300 mx-auto">
       <Nav />
       <ScrollToTop />
 
