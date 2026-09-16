@@ -1,0 +1,269 @@
+@import "tailwindcss";
+
+/* Enables class-based dark mode: add/remove `.dark` on <html> (handled by
+   useTheme.js) instead of following the OS setting automatically. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* -------------------------------------------------------------------------
+   Design tokens.
+   Palette rationale: a warm, neutral "paper" background with two calm,
+   natural accents — a deep forest green (trust, focus, calm) and a soft
+   lake blue (clarity, openness) — instead of a dark-glass/purple-blue
+   glow look. Dark mode keeps the same two hues, just re-balanced for
+   contrast on a dark background, so the site reads as one theme in two
+   lightings rather than two unrelated designs.
+------------------------------------------------------------------------- */
+@theme {
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --color-bg: #f6f4ee;
+  --color-bg-alt: #eeebe0;
+  --color-surface: #fffdf8;
+  --color-ink: #1b211d;
+  --color-ink-soft: #55605a;
+  --color-ink-dim: #838c82;
+
+  --color-pine: #24493d;
+  --color-pine-tint: #e3ece6;
+  --color-lake: #2b5f86;
+  --color-lake-tint: #e4edf3;
+
+  --color-line: #ddd8c8;
+
+  --animate-rise: rise 0.7s ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Same semantic names, re-balanced for a dark background. Every `bg-pine`,
+   `text-ink`, etc. utility in the app automatically follows these once the
+   `.dark` class is present — no component needs its own dark: variants
+   for color. */
+.dark {
+  --color-bg: #10160f;
+  --color-bg-alt: #161d15;
+  --color-surface: #1a221a;
+  --color-ink: #f1efe6;
+  --color-ink-soft: #b7c0b6;
+  --color-ink-dim: #7c8880;
+
+  --color-pine: #7fbfa0;
+  --color-pine-tint: rgba(127, 191, 160, 0.14);
+  --color-lake: #7ec0e6;
+  --color-lake-tint: rgba(126, 192, 230, 0.14);
+
+  --color-line: #2a332c;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+  body {
+    @apply bg-bg text-ink font-body antialiased transition-colors duration-300;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display font-medium tracking-tight leading-[1.1];
+  }
+  ::selection { @apply bg-pine-tint text-pine; }
+  :focus-visible { @apply outline-2 outline-pine outline-offset-[3px] rounded; }
+}
+
+@layer components {
+  /* Layout primitives */
+  .container { @apply max-w-[1120px] mx-auto px-8 max-[640px]:px-6; }
+  .page { @apply pt-32 pb-32 min-h-screen max-[640px]:pt-24 max-[640px]:pb-16; }
+  .section { @apply py-24 max-[640px]:py-12; }
+  .section-head { @apply mb-12; }
+  .h2 { @apply text-[clamp(1.9rem,3.6vw,2.6rem)]; }
+  .lede { @apply text-ink-soft text-[1.05rem] max-w-[60ch] mt-4; }
+
+  /* Card */
+  .card { @apply bg-surface border border-line rounded-2xl shadow-sm; }
+  .card-hover { @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:border-pine/30; }
+
+  /* Buttons, chips, badges */
+  .btn { @apply inline-flex items-center gap-2 rounded-lg px-5 py-3 text-[0.95rem] border border-transparent transition-all duration-200 active:scale-[0.97]; }
+  .btn-primary { @apply bg-pine text-bg font-semibold hover:opacity-90; }
+  .btn-ghost { @apply bg-transparent border border-line text-ink hover:border-pine hover:text-pine; }
+
+  .chip { @apply inline-flex items-center font-mono text-[0.76rem] text-pine bg-pine-tint rounded-full px-3 py-1; }
+
+  .badge { @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-[0.85rem] text-ink-soft border border-line; }
+  .badge-dot { @apply w-[7px] h-[7px] rounded-full bg-lake; }
+  .badge-time { @apply font-mono text-ink; }
+
+  /* Navigation — transparent over the hero so it visually fuses with it;
+     gains a background once the page scrolls past the hero. */
+  .nav { @apply fixed top-0 inset-x-0 z-40 h-20 flex items-center transition-colors duration-300 bg-transparent border-b border-transparent; }
+  .nav-scrolled { @apply bg-bg/85 backdrop-blur-md border-b border-line shadow-sm; }
+  .nav-inner { @apply w-full max-w-[1200px] mx-auto px-8 flex items-center justify-between max-[640px]:px-6; }
+
+  .logo { @apply font-display text-[1.4rem] flex items-baseline gap-0.5 text-ink; }
+  .logo span { @apply text-pine; }
+
+  .nav-links { @apply hidden min-[861px]:flex items-center gap-8; }
+  .nav-link { @apply text-[0.92rem] text-ink-soft py-1.5 relative transition-colors duration-200 hover:text-ink; }
+  .nav-link.active { @apply text-pine font-semibold; }
+  .nav-link.active::after { content: ''; @apply absolute left-0 right-0 -bottom-1 h-0.5 rounded-full bg-pine; }
+
+  .nav-right { @apply flex items-center gap-2; }
+  .icon-btn { @apply w-[38px] h-[38px] rounded-full border border-line bg-surface text-ink flex items-center justify-center transition-all duration-150 hover:border-pine hover:text-pine active:scale-95; }
+  .menu-toggle { @apply flex min-[861px]:hidden; }
+
+  .mobile-menu { @apply fixed inset-0 z-50 bg-bg flex flex-col justify-center p-12 animate-rise; }
+  .mobile-menu-close { @apply absolute top-6 right-6; }
+  .mobile-menu a { @apply font-display text-[2.2rem] py-2.5 text-ink block; }
+  .mobile-social { @apply flex gap-4 mt-8; }
+
+  /* Hero — fills the viewport together with the nav sitting on top of it */
+  .hero { @apply relative min-h-screen flex flex-col justify-center; }
+  .hero-content { @apply relative z-10; }
+  .hero h1 { @apply text-[clamp(2.8rem,7.5vw,5rem)] mt-6 text-ink; }
+  .hero-sub { @apply max-w-[560px] mt-6 text-[1.1rem] text-ink-soft; }
+  .hero-actions { @apply flex gap-4 mt-8 flex-wrap; }
+  .hero-note { @apply mt-6 text-[0.85rem] text-ink-dim max-w-[480px]; }
+
+  .rise { @apply animate-rise motion-reduce:animate-none; }
+
+  /* Quick facts strip (homepage) */
+  .facts-strip { @apply grid grid-cols-4 gap-6 max-[760px]:grid-cols-2; }
+  .fact-tile { @apply p-6 text-left; }
+  .fact-tile-value { @apply font-display text-[1.6rem] text-pine; }
+  .fact-tile-label { @apply text-ink-soft text-[0.85rem] mt-1; }
+
+  /* Project / blog card grid */
+  .card-grid { @apply grid grid-cols-3 gap-6 max-[900px]:grid-cols-2 max-[640px]:grid-cols-1; }
+  .project-card { @apply p-8 flex flex-col h-full; }
+  .project-card-period { @apply font-mono text-[0.74rem] text-ink-dim mb-1; }
+  .project-card h3 { @apply text-[1.3rem] mt-1; }
+  .project-card-summary { @apply text-ink-soft text-[0.94rem] mt-3 grow; }
+  .project-card-tags { @apply flex flex-wrap gap-1.5 mt-6; }
+  .project-card-cta { @apply flex items-center gap-1.5 mt-6 text-[0.88rem] font-semibold text-pine; }
+
+  .timeline { @apply mt-16 border-t border-line; }
+  .timeline-row { @apply grid grid-cols-[90px_1fr] gap-6 py-6 border-b border-line max-[560px]:grid-cols-1 max-[560px]:gap-1; }
+  .timeline-year { @apply font-mono text-lake; }
+  .timeline-role { @apply font-semibold; }
+  .timeline-org { @apply text-pine text-[0.9rem] my-1; }
+  .timeline-detail { @apply text-ink-soft text-[0.92rem] max-w-[60ch]; }
+
+  /* About page */
+  .about-grid { @apply grid gap-16 max-[760px]:grid-cols-1 max-[760px]:gap-8 md:grid-cols-[270px_1fr]; }
+  .about-card { @apply p-8 h-full max-h-110 text-center; }
+
+  .portrait { @apply w-[140px] h-[140px] mx-auto mb-6 rounded-full overflow-hidden border border-line bg-pine-tint flex items-center justify-center; }
+  .portrait img { @apply w-full h-full object-cover; }
+  .portrait-fallback { @apply font-display text-[2.4rem] text-pine; }
+  .portrait-sm { @apply w-14 h-14 m-0 rounded-lg shrink-0; }
+  .portrait-sm .portrait-fallback { @apply text-xl; }
+
+  .fact { @apply flex justify-between py-2.5 border-t border-line text-[0.9rem] text-left first:border-t-0; }
+  .fact-label { @apply text-ink-dim; }
+  .bio p { @apply text-ink-soft mb-6 max-w-[62ch]; }
+
+  .skill-group { @apply mt-8; }
+  .skill-group-label { @apply font-mono text-[0.78rem] text-ink-dim uppercase tracking-wider mb-2; }
+  .skill-group-items { @apply flex flex-wrap gap-2; }
+
+  /* Blog */
+  .post-list { @apply flex flex-col gap-6; }
+  .post-row { @apply p-8 block; }
+  .post-meta { @apply flex gap-4 font-mono text-[0.76rem] text-ink-dim mb-1; }
+  .post-meta .tag-accent { @apply text-lake; }
+  .post-row h3 { @apply text-[1.35rem] mt-1.5; }
+  .post-excerpt { @apply text-ink-soft text-[0.94rem] mt-1 max-w-[62ch]; }
+
+  .post-body { @apply p-12 max-[640px]:p-6; }
+  .post-body-meta { @apply flex gap-4 font-mono text-[0.8rem] text-ink-dim mb-4; }
+  .post-body h1 { @apply text-[clamp(1.8rem,4vw,2.4rem)] mb-6; }
+  .post-body p { @apply text-ink-soft max-w-[68ch] mb-6; }
+  .back-link { @apply inline-flex items-center gap-1.5 text-pine text-[0.9rem] mb-8 font-semibold; }
+
+  /* Project detail */
+  .detail-head { @apply mb-12; }
+  .detail-head h1 { @apply text-[clamp(2rem,4.5vw,3rem)] mt-4; }
+  .detail-tags { @apply flex flex-wrap gap-2 mt-6; }
+  .detail-body { @apply p-12 max-[640px]:p-6; }
+  .detail-body p { @apply text-ink-soft mb-6 max-w-[68ch]; }
+  .detail-note { @apply text-ink-dim text-[0.88rem] mt-6; }
+  .detail-links { @apply flex gap-4 mt-8 flex-wrap items-start; }
+
+
+  .code-toggle summary { @apply list-none inline-flex items-center gap-1.5 [&::-webkit-details-marker]:hidden; }
+  .code-toggle summary .chevron { @apply transition-transform duration-200; }
+  .code-toggle[open] summary .chevron { @apply rotate-180; }
+  .code-block { @apply mt-4 bg-[#10160f] text-[#f1efe6] rounded-lg p-6 overflow-x-auto font-mono text-[0.86rem] leading-relaxed; }
+  .code-block-label { @apply font-mono text-[0.75rem] text-ink-dim mb-2; }
+
+  .code-explorer-status { @apply flex items-center gap-2 mt-4 text-ink-soft text-[0.88rem]; }
+  .code-explorer { @apply mt-4 mx-auto flex gap-4 flex-wrap; }
+
+  /* Fixed-size, scrollable file tree with a themed (light) scrollbar. */
+  .file-tree {
+    @apply w-[240px] h-[420px] shrink-0 border border-line rounded-lg py-2 overflow-y-auto bg-bg
+      max-[640px]:w-full
+      [scrollbar-width:thin] [scrollbar-color:var(--color-line)_var(--color-bg-alt)]
+      [&::-webkit-scrollbar]:w-2
+      [&::-webkit-scrollbar-track]:bg-bg-alt
+      [&::-webkit-scrollbar-thumb]:bg-line [&::-webkit-scrollbar-thumb]:rounded-full
+      hover:[&::-webkit-scrollbar-thumb]:bg-pine/50;
+  }
+  .file-tree-row {
+    @apply w-full flex items-center gap-2 text-left text-[0.85rem] text-ink-soft py-1.5 pr-3
+      hover:bg-pine-tint hover:text-pine transition-colors duration-150;
+  }
+  .file-tree-row-active { @apply bg-pine-tint text-pine font-medium; }
+  .file-tree-row-locked { @apply opacity-40 cursor-not-allowed hover:bg-transparent hover:text-ink-soft; }
+
+  /* Fixed-size code viewer — same height as the file tree so the two panes
+     line up, and a fixed width of its own rather than stretching to fill
+     the remaining space. Shows "Select a file…" until one is picked, then
+     scrolls internally if the file is longer than the box, with a themed
+     (dark) scrollbar. */
+  .code-pane {
+    @apply lg:flex-1 h-[420px] max-w-[220px] sm:max-w-[400px] md:max-w-[600px] max-[640px]:w-full bg-[#10160f] text-[#f1efe6] rounded-lg overflow-hidden;
+  }
+  .code-pane-status { @apply w-full h-full flex items-center justify-center gap-2 px-6 text-center text-[#a9b6ac] text-[0.88rem]; }
+  .code-pane-inner {
+    @apply w-full h-full overflow-auto p-6
+      [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.18)_transparent]
+      [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:h-2
+      [&::-webkit-scrollbar-track]:bg-transparent
+      [&::-webkit-scrollbar-thumb]:bg-white/15 [&::-webkit-scrollbar-thumb]:rounded-full
+      hover:[&::-webkit-scrollbar-thumb]:bg-white/25;
+  }
+  .code-pane-inner pre { @apply font-mono text-[0.86rem] leading-relaxed whitespace-pre; }
+
+  /* Contact */
+  .contact-grid { @apply grid grid-cols-[1fr_1.2fr] gap-16 max-[760px]:grid-cols-1 max-[760px]:gap-8; }
+  .contact-links { @apply flex flex-col gap-4 mt-6; }
+  .contact-link { @apply flex items-center gap-4 p-6 transition-colors duration-200 hover:border-pine hover:text-pine; }
+  .contact-form { @apply p-8; }
+  .field { @apply mb-6; }
+  .field label { @apply block text-[0.85rem] text-ink-soft mb-2; }
+  .field input, .field textarea {
+    @apply w-full bg-bg border border-line rounded-lg px-3.5 py-3 text-ink font-body text-[0.95rem]
+      focus:outline-2 focus:outline-pine focus:outline-offset-1 focus:border-transparent;
+  }
+  .field textarea { @apply resize-y min-h-[110px]; }
+  .form-note { @apply text-[0.85rem] mt-4; }
+  .form-note.error { @apply text-red-500; }
+  .form-note.success { @apply text-pine; }
+
+  /* Footer / back to top */
+  .footer { @apply border-t border-line py-8 flex justify-between items-center text-[0.82rem] text-ink-dim flex-wrap gap-3; }
+
+  .back-top {
+    @apply fixed bottom-7 right-7 z-30 w-[46px] h-[46px] rounded-full bg-pine text-bg border-none
+      flex items-center justify-center shadow-lg opacity-0 translate-y-2.5 pointer-events-none
+      transition-all duration-300;
+  }
+  .back-top.show { @apply opacity-100 translate-y-0 pointer-events-auto; }
+}
