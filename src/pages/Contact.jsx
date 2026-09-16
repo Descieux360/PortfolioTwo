@@ -10,16 +10,39 @@ export default function Contact() {
   const handleChange = (field) => (e) =>
     setForm((f) => ({ ...f, [field]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // 1. Basic validation
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
       setStatus('error');
       return;
     }
-    // No backend is wired up yet — see README.md for how to connect this
-    // to a Vercel Function + an email API (e.g. Resend) so it actually sends.
+    
     setStatus('sending');
-    setTimeout(() => setStatus('sent'), 800);
+
+    // 2. Send the data to Formspree via fetch
+    try {
+      const response = await fetch('https://formspree.io/f/xzezbzgn', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json' // Tells Formspree to return a JSON response, preventing redirects
+        },
+        body: JSON.stringify(form)
+      });
+
+      if (response.ok) {
+        setStatus('sent');
+        setForm({ name: '', email: '', message: '' }); // Clear the form on success
+      } else {
+        // Formspree rejected it (e.g., invalid email format)
+        setStatus('error'); 
+      }
+    } catch (error) {
+      // Network error
+      setStatus('error');
+    }
   };
 
   return (
@@ -46,23 +69,28 @@ export default function Contact() {
         </div>
 
         <Card className="contact-form">
+          {/* Removed the action and method from the form tag since fetch handles it now */}
           <form onSubmit={handleSubmit}>
             <div className="field">
               <label htmlFor="name">Name</label>
-              <input id="name" type="text" value={form.name} onChange={handleChange('name')} />
+              {/* Added name="name" */}
+              <input id="name" name="name" type="text" value={form.name} onChange={handleChange('name')} />
             </div>
             <div className="field">
               <label htmlFor="email">Email</label>
-              <input id="email" type="email" value={form.email} onChange={handleChange('email')} />
+              {/* Added name="email" */}
+              <input id="email" name="email" type="email" value={form.email} onChange={handleChange('email')} />
             </div>
             <div className="field">
               <label htmlFor="message">Message</label>
-              <textarea id="message" value={form.message} onChange={handleChange('message')} />
+              {/* Added name="message" */}
+              <textarea id="message" name="message" value={form.message} onChange={handleChange('message')} />
             </div>
             <button type="submit" className="btn btn-primary" disabled={status === 'sending'}>
               {status === 'sending' ? 'Sending…' : 'Send message'}
             </button>
-            {status === 'error' && <p className="form-note error">Fill in every field before sending.</p>}
+            
+            {status === 'error' && <p className="form-note error">Please fill in all fields correctly before sending.</p>}
             {status === 'sent' && <p className="form-note success">Message received — I&rsquo;ll reply within a couple of days.</p>}
           </form>
         </Card>
