@@ -73,7 +73,7 @@ export const PROJECTS = [
       'Location search runs against the Open-Meteo Geocoding API for zero-latency, key-free client-side search, and forecasts come from the Open-Meteo Forecast API with coordinate mapping and automatic local timezone adjustment. Vite handles the build, with near-instant HMR during development and tree-shaken production output.',
     ],
     tags: ['React 19', 'TypeScript', 'Vite', 'Tailwind CSS v4'],
-    links: { live: 'weather-app-1-mu-silk.vercel.app', repo: 'https://github.com/Descieux360/Weather_APP_1' },
+    links: { live: 'https://weather-app-1-mu-silk.vercel.app', repo: 'https://github.com/Descieux360/Weather_APP_1' },
     note: null,
     codeSnippet: {
       label: 'useForecast.ts',
@@ -103,7 +103,7 @@ export const PROJECTS = [
       'Trending state loads independently of the main list via its own isTrendingLoading flag, with Tailwind\u2019s animate-pulse driving skeleton loaders so the layout doesn\u2019t shift while data streams in. Modal components handle the detailed view — full overviews, posters and metrics — without leaving the list.',
     ],
     tags: ['React', 'Tailwind CSS', 'Appwrite'],
-    links: { live: 'movie-app-1-tau.vercel.app', repo: 'https://github.com/Descieux360/movie_app_1' },
+    links: { live: 'https://movie-app-1-tau.vercel.app', repo: 'https://github.com/Descieux360/movie_app_1' },
     note: null,
     codeSnippet: {
       label: 'validators.ts',

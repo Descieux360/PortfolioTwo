@@ -200,7 +200,7 @@
   .code-toggle summary .chevron { @apply transition-transform duration-200; }
   .code-toggle[open] summary .chevron { @apply rotate-180; }
   .code-block { @apply mt-4 bg-[#10160f] text-[#f1efe6] rounded-lg p-6 overflow-x-auto font-mono text-[0.86rem] leading-relaxed; }
-  .code-block-label { @apply font-mono text-[0.75rem] text-ink-dim mb-2; }
+  .code-block-label { @apply font-mono text-[0.75rem] text-ink-dim my-2; }
 
   .code-explorer-status { @apply flex items-center gap-2 mt-4 text-ink-soft text-[0.88rem]; }
   .code-explorer { @apply mt-4 mx-auto flex gap-4 flex-wrap; }
@@ -228,7 +228,7 @@
      scrolls internally if the file is longer than the box, with a themed
      (dark) scrollbar. */
   .code-pane {
-    @apply lg:flex-1 h-[420px] max-w-[220px] sm:max-w-[400px] md:max-w-[600px] max-[640px]:w-full bg-[#10160f] text-[#f1efe6] rounded-lg overflow-hidden;
+    @apply lg:flex-1 h-[420px] max-w-[calc(100vw-100px)] sm:max-w-[400px] md:max-w-[600px] max-[640px]:w-full bg-[#10160f] text-[#f1efe6] rounded-lg overflow-hidden;
   }
   .code-pane-status { @apply w-full h-full flex items-center justify-center gap-2 px-6 text-center text-[#a9b6ac] text-[0.88rem]; }
   .code-pane-inner {
