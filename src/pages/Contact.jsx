@@ -35,13 +35,13 @@ export default function Contact() {
       <div className="contact-grid">
         <div className="contact-links">
           <a href={`mailto:${SITE.email}`} className="card contact-link">
-            <Mail size={18} /> {SITE.email}
+            <Mail size={18} /> <p className='contact-link-visible'>{SITE.email}</p>
           </a>
           <a href={SITE.github} target="_blank" rel="noreferrer" className="card contact-link">
-            <Github size={18} /> {SITE.github.replace('https://', '')}
+            <Github size={18} /> <p className='contact-link-visible'>{SITE.github.replace('https://', '')}</p>
           </a>
           <a href={SITE.linkedin} target="_blank" rel="noreferrer" className="card contact-link">
-            <Linkedin size={18} /> {SITE.linkedin.replace('https://', '')}
+            <Linkedin size={18} /> <p className='contact-link-visible'>{SITE.linkedin.replace('https://', '')}</p> 
           </a>
         </div>
 

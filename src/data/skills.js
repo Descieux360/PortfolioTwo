@@ -9,14 +9,14 @@ export const SKILL_GROUPS = [
   },
   {
     label: 'Frontend',
-    items: ['React', 'Next.js', 'Tailwind CSS', 'Vite'],
+    items: ['React', 'Next.js', 'Tailwind CSS', 'Vite', 'HTML5/CSS3', 'Redux'],
   },
   {
-    label: 'Backend & data',
+    label: 'Backend & API',
     items: ['tRPC', 'Prisma', 'PostgreSQL', 'Supabase', 'Appwrite', 'Vercel Functions'],
   },
   {
     label: 'Testing & tooling',
-    items: ['Vitest', 'pgvector'],
+    items: ['Jest','Node.js', 'Git', 'GitHub', 'Docker', 'Gemini', 'Claude', 'Codex', 'OpenCode','Linux.'],
   },
 ];

@@ -119,7 +119,7 @@
 
   .mobile-menu { @apply fixed inset-0 z-50 bg-bg flex flex-col justify-center p-12 animate-rise; }
   .mobile-menu-close { @apply absolute top-6 right-6; }
-  .mobile-menu a { @apply font-display text-[2.2rem] py-2.5 text-ink block; }
+  .mobile-menu a { @apply font-display text-[2.2rem] py-2.5 text-ink; }
   .mobile-social { @apply flex gap-4 mt-8; }
 
   /* Hero — fills the viewport together with the nav sitting on top of it */
@@ -156,7 +156,7 @@
 
   /* About page */
   .about-grid { @apply grid gap-16 max-[760px]:grid-cols-1 max-[760px]:gap-8 md:grid-cols-[270px_1fr]; }
-  .about-card { @apply p-8 h-full max-h-110 text-center; }
+  .about-card { @apply flex flex-col items-center justify-center p-8 h-full max-h-110 text-center; }
 
   .portrait { @apply w-[140px] h-[140px] mx-auto mb-6 rounded-full overflow-hidden border border-line bg-pine-tint flex items-center justify-center; }
   .portrait img { @apply w-full h-full object-cover; }
@@ -164,7 +164,7 @@
   .portrait-sm { @apply w-14 h-14 m-0 rounded-lg shrink-0; }
   .portrait-sm .portrait-fallback { @apply text-xl; }
 
-  .fact { @apply flex justify-between py-2.5 border-t border-line text-[0.9rem] text-left first:border-t-0; }
+  .fact { @apply flex justify-between w-full py-2.5 border-t border-line text-[0.9rem] text-left first:border-t-0; }
   .fact-label { @apply text-ink-dim; }
   .bio p { @apply text-ink-soft mb-6 max-w-[62ch]; }
 
@@ -242,9 +242,10 @@
   .code-pane-inner pre { @apply font-mono text-[0.86rem] leading-relaxed whitespace-pre; }
 
   /* Contact */
-  .contact-grid { @apply grid grid-cols-[1fr_1.2fr] gap-16 max-[760px]:grid-cols-1 max-[760px]:gap-8; }
-  .contact-links { @apply flex flex-col gap-4 mt-6; }
-  .contact-link { @apply flex items-center gap-4 p-6 transition-colors duration-200 hover:border-pine hover:text-pine; }
+  .contact-grid { @apply grid grid-cols-[1fr_1.2fr] gap-16 max-[1024px]:grid-cols-1 max-[760px]:gap-8; }
+  .contact-links { @apply flex sm:flex-col gap-4 mt-6; }
+  .contact-link { @apply flex items-center gap-4 p-4 sm:p-6 rounded-full sm:rounded-lg transition-colors duration-200 hover:border-pine hover:text-pine; }
+  .contact-link-visible { @apply hidden sm:block }
   .contact-form { @apply p-8; }
   .field { @apply mb-6; }
   .field label { @apply block text-[0.85rem] text-ink-soft mb-2; }

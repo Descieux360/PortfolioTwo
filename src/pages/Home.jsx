@@ -15,7 +15,6 @@ const featured = FEATURED_SLUGS
 const FACTS = [
   { value: String(PROJECTS.length), label: 'Shipped or in-progress apps' },
   { value: 'UTC+1', label: `${SITE.location.split(',')[0]} — full overlap with EU hours` },
-  { value: 'TS-first', label: 'TypeScript across every project below' },
   { value: 'Remote', label: 'Looking for employee-track roles' },
 ];
 

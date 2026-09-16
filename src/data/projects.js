@@ -19,21 +19,13 @@ export const PROJECTS = [
       'Kally2 is a Cal.com-based scheduling platform built at Korollc inside a Turborepo monorepo. I worked on booking flows on top of existing collective and round-robin scheduling logic across a multi-tenant hierarchy — closing production-readiness gaps rather than building greenfield features.',
       'Most of the interesting problems were about the tRPC mental model inside a large monorepo: designing procedures that stayed type-safe across a Next.js App Router and Pages Router boundary, and working from a passing Vitest suite toward edge cases the tests hadn\u2019t covered yet.',
     ],
-    tags: ['Next.js', 'tRPC', 'Prisma', 'PostgreSQL'],
-    links: { live: 'https://kally2.example.com', repo: null },
-    note: 'Built at Korollc — source is closed; swap in your live URL once it\u2019s public.',
+    tags: ['Next.js', 'tRPC'],
+    links: { live: null, repo: null },
+    note: 'Built at Koro LLC — source is closed',
+    proprietary: "Koro LLC",
     codeSnippet: {
-      label: 'availability.router.ts',
-      code: `export const availabilityRouter = router({
-  forSlot: protectedProcedure
-    .input(z.object({ eventTypeId: z.number(), start: z.date() }))
-    .query(async ({ input, ctx }) => {
-      const conflicts = await ctx.prisma.booking.findMany({
-        where: { eventTypeId: input.eventTypeId, startTime: input.start },
-      });
-      return { available: conflicts.length === 0 };
-    }),
-});`,
+      label: 'Source not available for the public',
+      code:null,
     },
   },
   {
@@ -50,16 +42,17 @@ export const PROJECTS = [
     // Repo is private — only a live link is shown.
     links: { live: 'https://positive-parenting-xi.vercel.app/', repo: null },
     note: 'Private repository — live demo available.',
+    proprietary: "Nura",
     codeSnippet: {
       label: 'retrieveContext.ts',
       code: `export async function retrieveContext(query: string, topK = 5) {
-  const embedding = await embed(query);
-  const { data } = await supabase.rpc('match_lessons', {
-    query_embedding: embedding,
-    match_count: topK,
-  });
-  return data ?? [];
-}`,
+        const embedding = await embed(query);
+        const { data } = await supabase.rpc('match_lessons', {
+          query_embedding: embedding,
+          match_count: topK,
+        });
+        return data ?? [];
+      }`,
     },
   },
   {
@@ -73,23 +66,23 @@ export const PROJECTS = [
       'Location search runs against the Open-Meteo Geocoding API for zero-latency, key-free client-side search, and forecasts come from the Open-Meteo Forecast API with coordinate mapping and automatic local timezone adjustment. Vite handles the build, with near-instant HMR during development and tree-shaken production output.',
     ],
     tags: ['React 19', 'TypeScript', 'Vite', 'Tailwind CSS v4'],
-    links: { live: 'https://weather-app-1-mu-silk.vercel.app', repo: 'https://github.com/Descieux360/Weather_APP_1' },
+    links: { live: 'https://weather-app-1-ten-lemon.vercel.app/', repo: 'https://github.com/Descieux360/Weather_APP_1' },
     note: null,
     codeSnippet: {
       label: 'useForecast.ts',
       code: `export function useForecast(coords: Coordinates | null) {
-  const [forecast, setForecast] = useState<Forecast | null>(null);
+      const [forecast, setForecast] = useState<Forecast | null>(null);
 
-  useEffect(() => {
-    if (!coords) return;
-    const controller = new AbortController();
+      useEffect(() => {
+        if (!coords) return;
+        const controller = new AbortController();
 
-    fetchForecast(coords, { signal: controller.signal }).then(setForecast);
-    return () => controller.abort();
-  }, [coords]);
+        fetchForecast(coords, { signal: controller.signal }).then(setForecast);
+        return () => controller.abort();
+      }, [coords]);
 
-  return forecast;
-}`,
+      return forecast;
+    }`,
     },
   },
   {
@@ -108,14 +101,14 @@ export const PROJECTS = [
     codeSnippet: {
       label: 'validators.ts',
       code: `export function toSafeFloat(value: unknown, fallback = 0): number {
-  const parsed = typeof value === 'number' ? value : parseFloat(String(value));
-  return Number.isFinite(parsed) ? parsed : fallback;
-}
+        const parsed = typeof value === 'number' ? value : parseFloat(String(value));
+        return Number.isFinite(parsed) ? parsed : fallback;
+      }
 
-export function toSafeInt(value: unknown, fallback = 0): number {
-  const parsed = typeof value === 'number' ? value : parseInt(String(value), 10);
-  return Number.isInteger(parsed) ? parsed : fallback;
-}`,
+      export function toSafeInt(value: unknown, fallback = 0): number {
+        const parsed = typeof value === 'number' ? value : parseInt(String(value), 10);
+        return Number.isInteger(parsed) ? parsed : fallback;
+      }`,
     },
   },
   {
@@ -134,14 +127,14 @@ export function toSafeInt(value: unknown, fallback = 0): number {
     codeSnippet: {
       label: 'cart.js',
       code: `function addToCart(product) {
-  const existing = cart.find((item) => item.id === product.id);
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push({ ...product, quantity: 1 });
-  }
-  renderCart();
-}`,
+        const existing = cart.find((item) => item.id === product.id);
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          cart.push({ ...product, quantity: 1 });
+        }
+        renderCart();
+      }`,
     },
   },
   {
@@ -160,10 +153,10 @@ export function toSafeInt(value: unknown, fallback = 0): number {
     codeSnippet: {
       label: 'progress.js',
       code: `function toggleTask(taskId) {
-  const task = tasks.find((t) => t.id === taskId);
-  task.done = !task.done;
-  updateProgressBar();
-}`,
+        const task = tasks.find((t) => t.id === taskId);
+        task.done = !task.done;
+        updateProgressBar();
+      }`,
     },
   },
 ];

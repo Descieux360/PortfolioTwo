@@ -19,7 +19,7 @@ export const SITE = {
   ],
   email: 'descieuxphilippecoder@gmail.com',
   github: 'https://github.com/descieux360',
-  linkedin: 'www.linkedin.com/in/descieuxphilippemichel',
+  linkedin: 'https://www.linkedin.com/in/descieuxphilippemichel',
   // Drop a square photo (roughly 500×500px works well) at /public/profile.jpg
   // and it will show up automatically — see README.md.
   photo: '/profile.jpg',

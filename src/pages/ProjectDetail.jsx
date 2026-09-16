@@ -41,7 +41,13 @@ export default function ProjectDetail() {
             </a>
           )}
           <div className="basis-full">
-            <CodeExplorer repoUrl={project.links.repo} fallback={project.codeSnippet} />
+            {/* Added proprietary and liveUrl props here */}
+            <CodeExplorer 
+              repoUrl={project.links.repo} 
+              fallback={project.codeSnippet}
+              proprietary={project.proprietary} 
+              liveUrl={project.links.live}
+            />
           </div>
         </div>
       </Card>

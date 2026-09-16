@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Folder, FolderOpen, File, Lock, Code2, ChevronDown, Loader2 } from 'lucide-react';
+import { Folder, FolderOpen, File, Lock, Code2, ChevronDown, Loader2, ExternalLink } from 'lucide-react';
 
 // Pulls { owner, repo } out of a github.com URL.
 function parseRepo(url) {
@@ -15,8 +15,6 @@ function parseRepo(url) {
 }
 
 // Extensions (and a few bare filenames) that are safe to fetch and render
-// as plain text. Anything not on this list — images, fonts, archives,
-// binaries — gets locked in the tree instead of fetched.
 const TEXT_EXTENSIONS = new Set([
   'js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs', 'json', 'jsonc',
   'md', 'mdx', 'txt', 'rst', 'log',
@@ -37,13 +35,11 @@ const TEXT_FILENAMES = new Set([
 function isTextFile(path) {
   const name = path.split('/').pop().toLowerCase();
   if (TEXT_FILENAMES.has(name)) return true;
-  // Bare dotfiles with no further extension — .env, .gitignore, .npmrc, etc.
   if (name.startsWith('.') && !name.slice(1).includes('.')) return true;
   const ext = name.includes('.') ? name.split('.').pop() : '';
   return TEXT_EXTENSIONS.has(ext);
 }
 
-// Turns GitHub's flat recursive tree listing into a nested folder/file tree.
 function buildTree(entries) {
   const root = { name: '', type: 'tree', path: '', children: {} };
   for (const entry of entries) {
@@ -65,7 +61,6 @@ function buildTree(entries) {
   return root;
 }
 
-// Folders first, then alphabetical within each group.
 function sortedChildren(node) {
   return Object.values(node.children).sort((a, b) => {
     if (a.type !== b.type) return a.type === 'tree' ? -1 : 1;
@@ -99,7 +94,6 @@ function TreeNode({ node, depth, onSelectFile, selectedPath }) {
     );
   }
 
-  // File node.
   if (!isTextFile(node.path)) {
     return (
       <div
@@ -126,21 +120,19 @@ function TreeNode({ node, depth, onSelectFile, selectedPath }) {
   );
 }
 
-// repoUrl: a github.com URL, e.g. project.links.repo.
-// fallback: { label, code } — shown instead if there's no public repo to fetch
-// (private project, or repoUrl isn't a github.com link).
-export default function CodeExplorer({ repoUrl, fallback }) {
-  const [status, setStatus] = useState('idle'); // idle | loading | ready | error
+// Added 'proprietary' (string) and 'liveUrl' (string) props
+export default function CodeExplorer({ repoUrl, fallback, proprietary, liveUrl }) {
+  const [status, setStatus] = useState('idle'); 
   const [tree, setTree] = useState(null);
   const [branch, setBranch] = useState(null);
   const [selectedPath, setSelectedPath] = useState(null);
   const [fileContent, setFileContent] = useState('');
-  const [fileStatus, setFileStatus] = useState('idle'); // idle | loading | ready | error
+  const [fileStatus, setFileStatus] = useState('idle'); 
 
   const repo = repoUrl ? parseRepo(repoUrl) : null;
 
   const loadTree = async () => {
-    if (!repo || status === 'loading' || status === 'ready') return;
+    if (!repo || status === 'loading' || status === 'ready' || proprietary) return;
     setStatus('loading');
     try {
       const infoRes = await fetch(`https://api.github.com/repos/${repo.owner}/${repo.repo}`);
@@ -177,20 +169,43 @@ export default function CodeExplorer({ repoUrl, fallback }) {
     }
   };
 
-  // No public repo to fetch from — fall back to the stored snippet, if any.
-  if (!repo) {
-    if (!fallback) return null;
+  // NEW LOGIC: Trigger fallback if no public repo OR if explicitly marked as proprietary
+  if (!repo || proprietary) {
+    if (!fallback && !proprietary) return null;
     return (
       <details className="code-toggle">
         <summary className="btn btn-ghost">
-          <Code2 size={15} /> View code <ChevronDown size={14} className="chevron" />
+          <Code2 size={15} /> {proprietary ? 'Code Snippet' : 'View code'} <ChevronDown size={14} className="chevron" />
         </summary>
-        <div className="code-block-label">{fallback.label}</div>
-        <pre className="code-block"><code>{fallback.code}</code></pre>
+        
+        {/* Proprietary Notification Banner */}
+        {proprietary && (
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 mb-4 mt-2 rounded-lg bg-pine-tint border border-pine/20 text-ink-soft text-[0.88rem]">
+            <div className="flex items-center gap-2">
+              <Lock size={16} className="text-pine shrink-0" />
+              <span>
+                This codebase is proprietary to <strong>{proprietary}</strong>. The full source repository is closed, but here is a featured snippet.
+              </span>
+            </div>
+            {liveUrl && (
+              <a href={liveUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1 text-pine font-medium hover:underline shrink-0 px-3 py-1.5 bg-bg rounded-md border border-line">
+                <ExternalLink size={14} /> View Live Project
+              </a>
+            )}
+          </div>
+        )}
+
+        {fallback && (
+          <div className="mt-2">
+            <div className="code-block-label">{fallback.label}</div>
+            <pre className="code-block"><code>{fallback.code}</code></pre>
+          </div>
+        )}
       </details>
     );
   }
 
+  // ... (The rest of the component remains exactly the same)
   return (
     <details className="code-toggle" onToggle={(e) => { if (e.target.open) loadTree(); }}>
       <summary className="btn btn-ghost">
