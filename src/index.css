@@ -76,7 +76,7 @@
 }
 
 
-/*/* -------------------------------------------------------------------------
+/* -------------------------------------------------------------------------
    Code explorer syntax colours.
 
    Scoped to .code-toggle (the component's root) so each variable resolves
@@ -145,19 +145,19 @@
 /* -------------------------------------------------------------------------
    Code panel surface.
 
-   Makes the code panel (and the fallback snippet block) follow the site
-   theme instead of staying dark: paper-white in light mode, and whatever
-   your dark tokens are in dark mode. Tweak the four variables to taste.
+   Replaces the always-dark panel (#10160f) from your component CSS with
+   theme-aware colours: paper-white with a border in light mode, and your
+   dark tokens in dark mode. Tweak the variables to taste.
 
-   These rules are unlayered, so they win over styles in @layer components
-   without needing !important.
+   These rules are unlayered, so they win over your @layer components
+   styles without needing !important.
 ------------------------------------------------------------------------- */
 
 .code-toggle {
-  --code-bg:       var(--color-surface);
-  --code-fg:       var(--color-ink);
-  --code-label-bg: var(--color-bg-alt);
-  --code-border:   var(--color-line);
+  --code-bg:          var(--color-surface);
+  --code-fg:          var(--color-ink);
+  --code-border:      var(--color-line);   /* same border as .file-tree */
+  --code-label-bg:    var(--color-bg-alt);
 }
 
 /* Optional: give dark mode its own panel colour instead of the surface token.
@@ -167,38 +167,64 @@
 }
 */
 
-.code-toggle .code-explorer {
-  border-color: var(--code-border);
-}
-
+/* Panel + fallback snippet block: themed background, text and border */
 .code-toggle .code-pane,
-.code-toggle .code-pane pre,
 .code-toggle pre.code-block {
   background: var(--code-bg);
   color: var(--code-fg);
+  border: 1px solid var(--code-border);
 }
 
-.code-toggle .code-pane-inner {
-  background: transparent;
-}
-
+.code-toggle .code-pane pre,
 .code-toggle .code-pane code,
 .code-toggle pre.code-block code {
   background: transparent;
   color: inherit;
 }
 
+.code-toggle .code-pane-status {
+  color: var(--color-ink-soft);
+}
+
+/* Scrollbars: identical to .file-tree (thin, line thumb on bg-alt track,
+   pine tint on hover) instead of the white-on-dark ones. */
+.code-toggle .code-pane-inner,
+.code-toggle pre.code-block {
+  background: transparent;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) var(--color-bg-alt);
+}
+.code-toggle pre.code-block {
+  background: var(--code-bg);
+}
+.code-toggle .code-pane-inner::-webkit-scrollbar,
+.code-toggle pre.code-block::-webkit-scrollbar {
+  width: 0.5rem;   /* w-2 */
+  height: 0.5rem;  /* h-2 */
+}
+.code-toggle .code-pane-inner::-webkit-scrollbar-track,
+.code-toggle pre.code-block::-webkit-scrollbar-track {
+  background: var(--color-bg-alt);
+}
+.code-toggle .code-pane-inner::-webkit-scrollbar-thumb,
+.code-toggle pre.code-block::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 9999px;
+}
+.code-toggle .code-pane-inner:hover::-webkit-scrollbar-thumb,
+.code-toggle pre.code-block:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--color-pine) 50%, transparent);
+}
+
+/* File-name label above the code */
 .code-toggle .code-block-label {
   background: var(--code-label-bg);
   color: var(--color-ink-soft);
   border-color: var(--code-border);
-  padding: 0.25rem 0.5rem;
   border-radius: 0.375rem;
+  padding: 0.25rem 0.5rem;
 }
 
-.code-toggle .code-pane-status {
-  color: var(--color-ink-soft);
-}
 
 
 
@@ -327,7 +353,7 @@
   .code-toggle summary .chevron { @apply transition-transform duration-200; }
   .code-toggle[open] summary .chevron { @apply rotate-180; }
   .code-block { @apply mt-4 bg-[#10160f] text-[#f1efe6] rounded-lg p-6 overflow-x-auto font-mono text-[0.86rem] leading-relaxed; }
-  .code-block-label { @apply font-mono text-[0.75rem] text-ink-dim my-2; }
+  .code-block-label { @apply font-mono text-[0.75rem] text-ink-dim mb-2; }
 
   .code-explorer-status { @apply flex items-center gap-2 mt-4 text-ink-soft text-[0.88rem]; }
   .code-explorer { @apply mt-4 mx-auto flex gap-4 flex-wrap; }
