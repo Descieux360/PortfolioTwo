@@ -75,6 +75,75 @@
   :focus-visible { @apply outline-2 outline-pine outline-offset-[3px] rounded; }
 }
 
+
+/* -------------------------------------------------------------------------
+   Code explorer syntax colours.
+
+   Scoped to .code-toggle (the component's root) so each variable resolves
+   *inside* whichever theme is active — no stale light values when `.dark`
+   sits on an ancestor.
+
+   Structure:
+   - Keyword / tag / function / comment / punctuation / variable reuse your
+     existing tokens (pine, lake, ink-*), so they follow the site theme.
+   - The extra hues a code palette needs (class, string, number, property,
+     builtin) are new, tuned to sit on the warm paper background, and
+     re-balanced for dark.
+------------------------------------------------------------------------- */
+
+.code-toggle {
+  /* from the site palette */
+  --syn-keyword:   var(--color-pine);
+  --syn-tag:       var(--color-pine);
+  --syn-function:  var(--color-lake);
+  --syn-variable:  var(--color-ink);
+  --syn-operator:  var(--color-ink-soft);
+  --syn-punct:     var(--color-ink-soft);
+  --syn-comment:   var(--color-ink-dim);
+
+  /* extra hues — light mode */
+  --syn-class:     #8a5a12; /* classes, components, types  (ochre)      */
+  --syn-string:    #9c4a2a; /* strings                     (clay)       */
+  --syn-number:    #7b4b94; /* numbers                     (plum)       */
+  --syn-constant:  #7b4b94; /* true / null / MAX_SIZE                   */
+  --syn-property:  #1f7a72; /* object keys, obj.prop       (teal)       */
+  --syn-attribute: #1f7a72; /* JSX / HTML attributes                    */
+  --syn-builtin:   #a03c5f; /* this, console, Math, JSON   (rose)       */
+}
+
+.dark .code-toggle {
+  --syn-class:     #e3b866;
+  --syn-string:    #e6a17f;
+  --syn-number:    #c9a4de;
+  --syn-constant:  #c9a4de;
+  --syn-property:  #6fcdc2;
+  --syn-attribute: #6fcdc2;
+  --syn-builtin:   #eb8fb0;
+
+  /* If your dark-mode pine / lake tokens read too dim on the code
+     background, brighten them for code only: */
+  /* --syn-keyword:  #8ccfb0; */
+  /* --syn-tag:      #8ccfb0; */
+  /* --syn-function: #8dbde6; */
+}
+
+.code-toggle .tok-keyword   { color: var(--syn-keyword); }
+.code-toggle .tok-tag       { color: var(--syn-tag); }
+.code-toggle .tok-function  { color: var(--syn-function); }
+.code-toggle .tok-class     { color: var(--syn-class); }
+.code-toggle .tok-string    { color: var(--syn-string); }
+.code-toggle .tok-number    { color: var(--syn-number); }
+.code-toggle .tok-constant  { color: var(--syn-constant); }
+.code-toggle .tok-property  { color: var(--syn-property); }
+.code-toggle .tok-attribute { color: var(--syn-attribute); }
+.code-toggle .tok-builtin   { color: var(--syn-builtin); }
+.code-toggle .tok-variable  { color: var(--syn-variable); }
+.code-toggle .tok-operator  { color: var(--syn-operator); }
+.code-toggle .tok-punct     { color: var(--syn-punct); }
+.code-toggle .tok-comment   { color: var(--syn-comment); font-style: italic; }
+
+
+
 @layer components {
   /* Layout primitives */
   .container { @apply max-w-[1120px] mx-auto px-8 max-[640px]:px-6; }
@@ -227,9 +296,15 @@
      the remaining space. Shows "Select a file…" until one is picked, then
      scrolls internally if the file is longer than the box, with a themed
      (dark) scrollbar. */
-  .code-pane {
-    @apply lg:flex-1 h-[420px] max-w-[calc(100vw-100px)] sm:max-w-[400px] md:max-w-[600px] max-[640px]:w-full bg-[#10160f] text-[#f1efe6] rounded-lg overflow-hidden;
-  }
+.code-pane {
+
+  @apply h-[420px] bg-[#10160f] text-[#f1efe6] rounded-lg overflow-hidden
+
+         max-[640px]:w-full max-w-[calc(100vw-100px)] sm:max-w-[500px] md:max-w-[600px]
+
+         lg:flex-1 xl:max-w-200;
+
+}
   .code-pane-status { @apply w-full h-full flex items-center justify-center gap-2 px-6 text-center text-[#a9b6ac] text-[0.88rem]; }
   .code-pane-inner {
     @apply w-full h-full overflow-auto p-6

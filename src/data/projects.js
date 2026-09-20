@@ -159,6 +159,61 @@ export const PROJECTS = [
       }`,
     },
   },
+  {
+    slug: 'portfolio',
+    title: 'Portfolio',
+    period: 'Personal project, 2026',
+    role: 'Developer',
+    summary: 'A React + Vite portfolio with client-side routing, a persisted light/dark toggle and a warm paper-and-forest theme built entirely in Tailwind v4.',
+    description: [
+      'This site. A React and Vite single-page app with real client-side routes for Home, Projects, About, Blog and Contact, so every page has its own URL and every project gets its own detail page.',
+      'Styling is Tailwind CSS v4 from end to end. Colors and fonts live as design tokens in a single @theme block, and a .dark class redefines those same variables \u2014 so components never need their own dark: overrides, and the whole palette can be changed from the top of one file.',
+      'The light/dark toggle is manual rather than tied to the OS setting. The choice is saved to localStorage and applied by a small inline script before React mounts, which avoids a flash of the wrong theme on load. Content such as projects, posts, skills and the timeline sits in plain data files, so updating the site rarely means touching a component.',
+    ],
+    tags: ['React', 'Vite', 'React Router', 'Tailwind CSS', 'JavaScript'],
+    links: {
+      live: 'https://descieuxphilippe.vercel.app/',
+      repo: 'https://github.com/Descieux360/PortfolioTwo',
+    },
+    note: null,
+    codeSnippet: null,
+  },
+  {
+    slug: 'ecommerce-product-page',
+    title: 'Frontend Mentor: E-commerce product page',
+    period: 'Frontend Mentor challenge',
+    role: 'Developer',
+    summary: 'A single-page e-commerce product interface, built from a Frontend Mentor challenge brief.',
+    description: [
+      'A Frontend Mentor challenge: build a single-page e-commerce interface from a supplied design and brief.',
+      'Written in plain HTML, CSS and JavaScript with no framework or build step, which made it good practice at turning a design into a working page using only the fundamentals.',
+    ],
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    links: {
+      live: 'https://descieux360.github.io/Frontend-Mentor-E-commerce-product-page/',
+      repo: 'https://github.com/Descieux360/Frontend-Mentor-E-commerce-product-page',
+    },
+    note: null,
+    codeSnippet: null,
+  },
+  {
+    slug: 'create-account-classes',
+    title: 'Create an account with ES6 classes',
+    period: 'Practice project',
+    role: 'Developer',
+    summary: 'A sign-up form whose validation logic is organized with ES6 classes.',
+    description: [
+      'A create-an-account form where the validation logic is written with ES6 classes instead of loose functions, keeping the rules for each field in one place.',
+      'Three files \u2014 HTML, CSS and a single script \u2014 with no dependencies, deployed as a static site on Vercel.',
+    ],
+    tags: ['JavaScript', 'ES6 Classes', 'HTML', 'CSS'],
+    links: {
+      live: 'https://create-an-account-using-classes.vercel.app/',
+      repo: 'https://github.com/Descieux360/Create-an-account-using-Classes',
+    },
+    note: null,
+    codeSnippet: null,
+  },
 ];
 
 // Which projects (by slug) show up as "Selected work" on the homepage.

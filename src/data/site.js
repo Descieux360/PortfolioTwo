@@ -9,9 +9,9 @@ export const SITE = {
   location: 'Yaoundé, Cameroon',
   timezone: 'Africa/Douala', // IANA zone used by the live clock in the hero
   timezoneLabel: 'WAT',
-  currentlyAt: 'Korollc',
+  currentlyAt: 'Koro LLC',
   tagline:
-    'Frontend developer building the interfaces underneath booking systems, learning tools, and the occasional experiment — currently at Korollc, remotely.',
+    'Frontend developer building the interfaces underneath booking systems, learning tools, and the occasional experiment — currently at Koro LLC, remotely.',
   aboutIntro: [
     "I'm a frontend developer working at the intersection of scheduling systems and everyday tools people actually rely on. At Korollc, I've been part of the team shipping Kally2, a Cal.com-based scheduling platform — building booking flows on top of Next.js, tRPC and Prisma inside a Turborepo monorepo built for multi-tenant teams.",
     "I'm also the co-founder and lead frontend developer of NURA (Parentalité Positive), a parenting PWA with a retrieval-augmented chatbot on WhatsApp and web, submitted to a UNICEF Cameroon innovation challenge. Alongside that, I build small, focused apps — a weather app, a movie discovery app, a Frontend Mentor challenge — mostly to keep my fundamentals sharp between bigger projects.",
