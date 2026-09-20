@@ -1,7 +1,0 @@
-Add your photo here as profile.jpg (a square image, ~500x500px, works best)
-and it will show up automatically on the About page and homepage.
-
-Until you add one, the site shows your initials instead — nothing is
-broken either way, so there's no rush.
-
-You can delete this file once you've added your photo.

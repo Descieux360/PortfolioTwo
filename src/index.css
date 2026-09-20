@@ -76,7 +76,7 @@
 }
 
 
-/* -------------------------------------------------------------------------
+/*/* -------------------------------------------------------------------------
    Code explorer syntax colours.
 
    Scoped to .code-toggle (the component's root) so each variable resolves
@@ -141,6 +141,64 @@
 .code-toggle .tok-operator  { color: var(--syn-operator); }
 .code-toggle .tok-punct     { color: var(--syn-punct); }
 .code-toggle .tok-comment   { color: var(--syn-comment); font-style: italic; }
+
+/* -------------------------------------------------------------------------
+   Code panel surface.
+
+   Makes the code panel (and the fallback snippet block) follow the site
+   theme instead of staying dark: paper-white in light mode, and whatever
+   your dark tokens are in dark mode. Tweak the four variables to taste.
+
+   These rules are unlayered, so they win over styles in @layer components
+   without needing !important.
+------------------------------------------------------------------------- */
+
+.code-toggle {
+  --code-bg:       var(--color-surface);
+  --code-fg:       var(--color-ink);
+  --code-label-bg: var(--color-bg-alt);
+  --code-border:   var(--color-line);
+}
+
+/* Optional: give dark mode its own panel colour instead of the surface token.
+.dark .code-toggle {
+  --code-bg:       #121815;
+  --code-label-bg: #18201c;
+}
+*/
+
+.code-toggle .code-explorer {
+  border-color: var(--code-border);
+}
+
+.code-toggle .code-pane,
+.code-toggle .code-pane pre,
+.code-toggle pre.code-block {
+  background: var(--code-bg);
+  color: var(--code-fg);
+}
+
+.code-toggle .code-pane-inner {
+  background: transparent;
+}
+
+.code-toggle .code-pane code,
+.code-toggle pre.code-block code {
+  background: transparent;
+  color: inherit;
+}
+
+.code-toggle .code-block-label {
+  background: var(--code-label-bg);
+  color: var(--color-ink-soft);
+  border-color: var(--code-border);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+}
+
+.code-toggle .code-pane-status {
+  color: var(--color-ink-soft);
+}
 
 
 
