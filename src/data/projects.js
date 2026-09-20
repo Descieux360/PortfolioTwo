@@ -46,13 +46,13 @@ export const PROJECTS = [
     codeSnippet: {
       label: 'retrieveContext.ts',
       code: `export async function retrieveContext(query: string, topK = 5) {
-        const embedding = await embed(query);
-        const { data } = await supabase.rpc('match_lessons', {
-          query_embedding: embedding,
-          match_count: topK,
-        });
-        return data ?? [];
-      }`,
+    const embedding = await embed(query);
+    const { data } = await supabase.rpc('match_lessons', {
+      query_embedding: embedding,
+      match_count: topK,
+    });
+    return data ?? [];
+}`,
     },
   },
   {

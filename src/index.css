@@ -193,7 +193,23 @@
   background: transparent;
   scrollbar-width: thin;
   scrollbar-color: var(--color-line) var(--color-bg-alt);
+  max-width: calc(100vw - 100px);
 }
+
+@media (width >= 40rem /* 640px */) {
+ .code-toggle .code-pane-inner,
+.code-toggle pre.code-block  {
+ max-width: 500px;
+ }
+}
+
+@media (width >= 768px) {
+ .code-toggle .code-pane-inner,
+ .code-toggle pre.code-block  {
+ max-width: none;
+ }
+}
+
 .code-toggle pre.code-block {
   background: var(--code-bg);
 }
