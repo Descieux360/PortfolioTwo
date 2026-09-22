@@ -148,15 +148,15 @@ export const PROJECTS = [
       'No backend, no build step: plain HTML, CSS and JavaScript, deliberately kept simple since its only job was to outlast my motivation on days I didn\u2019t have any.',
     ],
     tags: ['JavaScript', 'HTML', 'CSS'],
-    links: { live: null, repo: 'https://github.com/yourusername/roadmap-tracker' },
+    links: { live: null, repo: null },
     note: null,
     codeSnippet: {
       label: 'progress.js',
       code: `function toggleTask(taskId) {
-        const task = tasks.find((t) => t.id === taskId);
-        task.done = !task.done;
-        updateProgressBar();
-      }`,
+    const task = tasks.find((t) => t.id === taskId);
+    task.done = !task.done;
+    updateProgressBar();
+}`,
     },
   },
   {
